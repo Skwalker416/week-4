@@ -1,4 +1,4 @@
-## ** Week-4
+## Week-4
 # Rossmann Store Sales Prediction
 
 ## **Overview**  
