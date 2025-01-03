@@ -7,8 +7,7 @@ This repository contains code and documentation for analyzing customer purchasin
 ---
 
 ## **Project Structure**  
-
-.
+```plaintext
 ├── data/                     # Raw and processed datasets
 ├── notebooks/                # Jupyter Notebooks for EDA and modeling
 │   ├── EDA.ipynb             # Exploratory Data Analysis notebook
