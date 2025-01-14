@@ -36,5 +36,5 @@ This project focuses on developing a robust sales prediction system to help busi
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/sales-prediction-pipeline.git
+   git clone https://github.com/Skwalker416/week-4.git
    cd sales-prediction-pipeline
