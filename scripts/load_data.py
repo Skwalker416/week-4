@@ -1,51 +1,33 @@
+import pandas as pd
+import os
+import zipfile
 
-import os # manipulate the files and directories
-import zipfile # unzipp data.zip
-import pandas as pd # for manipulating the dataset
-
-def extract_zip(zip_path: str, extract_to: str) -> None:
+def load_data(filename, extract_to):
     """
-    Extracts a zip file to the specified directory.
-
+    Load and preprocess data from a compressed archive.
+    
     Args:
-        zip_path (str): The path to the zip file.
-        extract_to (str): The directory where the zip contents will be extracted.
+        filename (str): Path to the zip archive containing the dataset.
+        extract_to (str): Directory to extract the data to.
+
+    Returns:
+        pd.DataFrame: Loaded dataset.
     """
-    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+    print(f"Extracting data from {filename} to {extract_to}...")
+    
+    # Extract the archive
+    with zipfile.ZipFile(filename, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
 
-def load_csv_from_zip(extracted_dir: str, filename: str) -> pd.DataFrame:
-    """
-    Loads a CSV file from the extracted directory.
+    # Assume the dataset is a CSV file within the extracted directory
+    extracted_files = os.listdir(extract_to)
+    csv_file = next((f for f in extracted_files if f.endswith('.csv')), None)
 
-    Args:
-        extracted_dir (str): The directory where the zip contents were extracted.
-        filename (str): The name of the CSV file to load.
+    if not csv_file:
+        raise FileNotFoundError("No CSV file found in the extracted archive.")
 
-    Returns:
-        pd.DataFrame: The loaded data as a pandas DataFrame.
-    """
-    file_path = os.path.join(extracted_dir, filename)
-    return pd.read_csv(file_path, index_col=0)
-
-def load_data(zip_path: str, filename: str, extract_to) -> pd.DataFrame:
-    """
-    Orchestrates the extraction and loading of data from a zip file.
-
-    Args:
-        zip_path (str): The path to the zip file.
-        filename (str): The name of the CSV file to load.
-
-    Returns:
-        pd.DataFrame: The processed data as a pandas DataFrame.
-    """
-    try:
-        
-        extract_zip(zip_path, extract_to)
-    
-        df = load_csv_from_zip(extract_to, filename)
-    
-        return df
-    
-    except Exception as e:
-        raise RuntimeError(f'Error loading data: {str(e)}') 
+    # Load the CSV file into a DataFrame
+    csv_path = os.path.join(extract_to, csv_file)
+    df = pd.read_csv(csv_path)
+    print("Data successfully loaded.")
+    return df
